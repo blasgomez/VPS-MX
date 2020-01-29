@@ -728,7 +728,7 @@ echo -e "\033[1;97m    LIMITADOR:\033[1;92m $verificar \033[1;97m DESBLOQUEADOR 
 [[ -e ${SCPdir}/message.txt ]] && msg -bar && msg -bra " CREDITOS:\033[1;96m $(cat ${SCPdir}/message.txt) \033[1;31mHORA: \033[1;37m$_hora"
 [[ -e ${SCPdir}/key.txt ]] && msg -bar && msg -bra " KEY: \033[1;93m$(cat ${SCPdir}/key.txt)"
 # NOVO SISTEMA DE MENUS
-msg -bra " VERSION \033[1;31m[\033[1;32m VPS•MX (v7.1)\033[1;97m #MOD By @Kalix1# \033[1;31m]"
+msg -bra " VERSION \033[1;31m[\033[1;32m VPS•MX (v7.2)\033[1;97m #MOD By @Kalix1# \033[1;31m]"
 msg -bar
 menu_func "ADMINISTRAR CUENTAS (SSH/SSL/DROPBEAR)" "ADMINISTRAR CUENTAS (SS/SSRR)" "\033[1;93mMENU DE INSTALACIONES" "\033[1;94mPUERTOS ACTIVOS" "\033[1;97mHERRAMIENTAS y EXTRAS" "CAMBIAR COLORES DEL PANEL" "-fi $AutoRun AUTO INICIAR" "-vd ACTUALIZAR PANEL" "-vm DESINSTALAR PANEL" 
 msg -bar && echo -ne "$(msg -verd "[0]") $(msg -verm2 ">") "&& msg -bra "SALIR DEL SCRIPT"

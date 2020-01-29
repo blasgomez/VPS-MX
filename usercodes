@@ -6,6 +6,8 @@ myip=`ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*
 myint=`ifconfig | grep -B1 "inet addr:$myip" | head -n1 | awk '{print $1}'`;
 NOM=`less /etc/newadm/ger-user/nombre.log` > /dev/null 2>&1
 NOM1=`echo $NOM` > /dev/null 2>&1
+IDB=`less /etc/newadm/ger-user/IDT.log` > /dev/null 2>&1
+IDB1=`echo $IDB` > /dev/null 2>&1
 declare -A TIMEUS 
 SCPdir="/etc/newadm"
 SCPdir2="/etc/ger-frm"
@@ -116,9 +118,6 @@ unlockall2
 echo -e "\033[1;92m   ¡¡CONTADORES REINICIADOS!!"
 msg -bar
 }
-notifi () {
-notify -i "⚠️ ATENCION EN VPS IP: $myip ⚠️" -t "SE BLOQUEO UN USUARIO O EXPIRO"
-}
 
 block_userfun () {
 local USRloked="/etc/newadm-userlock"
@@ -127,7 +126,14 @@ local LIMITERLOG2="${USRdatabase}/Limiter2.log"
 if [[ $2 = "-loked" ]]; then 
 [[ $(cat ${USRloked}|grep -w "$1") ]] && return 1
 echo " $1 (BLOCK-MULTILOGIN) $(date +%r--%d/%m/%y)"
-notify -i "⚠️ AVISO DE VPS: $NOM1 ⚠️" -t "🔹USUARIO: $1 ❗️📵BLOQUEADO📵❗️" &>/dev/null
+KEY="862633455:AAGJ9BBJanzV6yYwLSemNAZAVwn7EyjrtcY"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+MSG="⚠️ AVISO DE VPS: $NOM1 ⚠️
+🔹 CUENTA: $1 
+❗️📵 BLOQUEADO TEMPORALMENTE 📵❗️
+🔓( DESBLOQUEO EN 60 SEGUNDOS) 🔓"
+curl -s --max-time 10 -d "chat_id=$IDB1&disable_web_page_preview=1&text=$MSG" $URL &>/dev/null
+
 pkill -u $1 &>/dev/null
 fi
 if [[ $(cat ${USRloked}|grep -w "$1") ]]; then
@@ -783,7 +789,12 @@ verif_fun () {
            local DataSEC=$(date +%s --date="$DataUser")
            if [[ "$DataSEC" -lt "$TimeNOW" ]]; then
               EXPIRED="1+"          
-              block_userfun $user -loked && echo " $user (EXPIRADO) $(date +%r--%d/%m/%y)" >> $LIMITERLOG && echo " $user (EXPIRADO) $(date +%r--%d/%m/%y)" >> $LIMITERLOG2 && notify -i "⚠️ AVISO DE VPS: $NOM1 ⚠️" -t "🔹USUARIO: $user ❗️📵EXPIRADO📵❗️" && pkill -u $user
+              block_userfun $user -loked && echo " $user (EXPIRADO) $(date +%r--%d/%m/%y)" >> $LIMITERLOG && echo " $user (EXPIRADO) $(date +%r--%d/%m/%y)" >> $LIMITERLOG2 && KEY="862633455:AAGJ9BBJanzV6yYwLSemNAZAVwn7EyjrtcY"
+URL="https://api.telegram.org/bot$KEY/sendMessage"
+MSG="⚠️ AVISO DE VPS: $NOM1 ⚠️
+🔹 CUENTA: $user 
+❗️ 📵 EXPIRADA 📵 ❗️"
+curl -s --max-time 10 -d "chat_id=$IDB1&disable_web_page_preview=1&text=$MSG" $URL && pkill -u $user
               echo -e "\033[1;31m EXPIRADO"
               continue
            fi
@@ -910,7 +921,7 @@ verif2_funx () {
 
 echo -e "\033[1;32m      DESBLOQUEO AUT. Y LIMPIADOR DE EXPIARDOS"
 msg -bar
-echo -e "Esta opcion desbloquea cada 120 segundos a usuarios\nbloqueados por el limitador y limpia los usuarios expirados"
+echo -e "Esta opcion desbloquea cada 60 segundos a usuarios\nbloqueados por el limitador y limpia los usuarios expirados"
 msg -bar
 [[ -z ${VERY2} ]] && desbloqueo="\033[1;32m ACTIVADO " || desbloqueo="\033[1;31m DESACTIVADO "
 echo -e "            $desbloqueo  --  CON EXITO"

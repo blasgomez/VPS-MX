@@ -5,10 +5,10 @@ SCPinst="/etc/ger-inst" && [[ ! -d ${SCPinst} ]] && exit
 dnsnetflix () {
 echo "nameserver 34.94.246.97" > /etc/resolv.conf
 echo "nameserver 34.95.197.49" >> /etc/resolv.conf
-
 /etc/init.d/ssrmu stop &>/dev/null
 /etc/init.d/ssrmu start &>/dev/null
-
+/etc/init.d/shadowsocks-r stop &>/dev/null
+/etc/init.d/shadowsocks-r start &>/dev/null
 msg -bar2
 echo -e "${cor[4]}DNS AGREGADOS CON EXITO"
 } 
