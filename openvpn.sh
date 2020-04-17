@@ -142,6 +142,32 @@ msg -bar
 	echo "   5) Verisign"
 msg -bar
 	read -p "DNS [1-5]: " -e -i 1 DNS
+#CIPHER
+msg -bar
+msg -ama " Elija que codificacion desea para el canal de datos:"
+msg -bar
+echo "   1) AES-128-CBC"
+echo "   2) AES-192-CBC"
+echo "   3) AES-256-CBC"
+echo "   4) CAMELLIA-128-CBC"
+echo "   5) CAMELLIA-192-CBC"
+echo "   6) CAMELLIA-256-CBC"
+echo "   7) SEED-CBC"
+msg -bar
+while [[ $CIPHER != @([1-7]) ]]; do
+read -p " Cipher [1-7]: " -e -i 1 CIPHER
+done
+case $CIPHER in
+1) CIPHER="cipher AES-128-CBC";;
+2) CIPHER="cipher AES-192-CBC";;
+3) CIPHER="cipher AES-256-CBC";;
+4) CIPHER="cipher CAMELLIA-128-CBC";;
+5) CIPHER="cipher CAMELLIA-192-CBC";;
+6) CIPHER="cipher CAMELLIA-256-CBC";;
+7) CIPHER="cipher SEED-CBC";;
+esac
+msg -bar
+msg -ama " Estamos listos para configurar su servidor OpenVPN"
 msg -bar
 	read -n1 -r -p "Presiona cualquier tecla para continuar..."
 	if [[ "$OS" = 'debian' ]]; then
@@ -221,8 +247,11 @@ ifconfig-pool-persist ipp.txt" > /etc/openvpn/server.conf
 		echo 'push "dhcp-option DNS 64.6.65.6"' >> /etc/openvpn/server.conf
 		;;
 	esac
+	
+
+	
 	echo "keepalive 10 120
-cipher AES-256-CBC
+${CIPHER}
 user nobody
 group $GROUPNAME
 persist-key
@@ -319,7 +348,7 @@ persist-key
 persist-tun
 remote-cert-tls server
 auth SHA512
-cipher AES-256-CBC
+${CIPHER}
 setenv opt block-outside-dns
 key-direction 1
 verb 3
