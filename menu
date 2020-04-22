@@ -121,7 +121,7 @@ v2=$(cat /etc/versin_script)
 cd $HOME
 tput cuu1 && tput dl1
 msg -bar2
-msg -ama "$(fun_trans "COMPROBANDO VERSION"): \033[1;31m[VPS•MX\033[1;97m #MOD MX By @Kalix1# \033[1;31m]" 
+msg -ama "$(fun_trans "COMPROBANDO VERSION"): \033[1;31m[VPSâ€¢MX\033[1;97m #MOD MX By @Kalix1# \033[1;31m]" 
 msg -bar2 && echo -e "\033[1;97m VERSION DE TU VPS-MX: $v2"
 msg -bar2 && echo -e "\033[1;97m VERSION MAS RECIENTE DE VPS-MX: $v1"
 msg -bar2 && echo -e "${cor[2]} ${vesaoSCT}"
@@ -453,10 +453,10 @@ eth=$(ifconfig | grep -v inet6 | grep -v lo | grep -v 127.0.0.1 | grep "encap:Et
     read -p " [S/N]: " -e -i n sshsn
            [[ "$sshsn" = @(s|S|y|Y) ]] && {
            echo -e "${cor[1]} $(fun_trans "Correccion de problemas de paquetes en SSH ...")"
-           echo -e " $(fun_trans "¿Cual es la tasa RX?")"
+           echo -e " $(fun_trans "Â¿Cual es la tasa RX?")"
            echo -ne "[ 1 - 999999999 ]: "; read rx
            [[ "$rx" = "" ]] && rx="999999999"
-           echo -e " $(fun_trans "¿Cual es la tasa TX?")"
+           echo -e " $(fun_trans "Â¿Cual es la tasa TX?")"
            echo -ne "[ 1 - 999999999 ]: "; read tx
            [[ "$tx" = "" ]] && tx="999999999"
            apt-get install ethtool -y > /dev/null 2>&1
@@ -472,7 +472,7 @@ echo $system|awk '{print $1, $2}'
 remove_script () {
 clear 
 msg -bar
-msg -ama "          ¿ DESEA DESINSTALAR SCRIPT ?"
+msg -ama "          Â¿ DESEA DESINSTALAR SCRIPT ?"
 msg -bar
 echo -e " Esto borrara todos los archivos del scrip VPS_MX"
 msg -bar
@@ -541,7 +541,7 @@ case $1 in
 "tcp.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "TCP ACELERACION (BBR/PLUS)") $dev";;
 "Crear-Demo.sh")return 1;;
 "dados.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "MONITOR DE DATOS") $ofc";;
-"blockBT.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "FIREWALL PARA VPS VPS•MX") $ofc";;
+"blockBT.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "FIREWALL PARA VPS VPSâ€¢MX") $ofc";;
 "C-SSR.sh")return 1;;
 "gestor.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "GESTIONAR VPS") $ofc";;
 "paysnd.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "PAYLOAD FUERZA BRUTA") $ofc";;
@@ -617,7 +617,7 @@ selection=$(selection_fun $Numb)
   esac
   }  
 }
-# Menu Instala��o
+# Menu Instalação
 pid_inst () {
 [[ $1 = "" ]] && echo -e "\033[1;31m[OFF]" && return 0
 unset portas
@@ -693,7 +693,7 @@ export -f fun_ip
 clear
 #########VISUALIZACION DE MENU
 msg -bar
-msg -ama "      \033[1;91m----------- 🔘 PANEL VPS•MX 🔘 ------------ "
+msg -ama "      \033[1;91m----------- ðŸ”˜ PANEL VPSâ€¢MX ðŸ”˜ ------------ "
 msg -bar
 echo -e "\033[1;31m PROCESADOR: \033[1;37mNUCLEOS:\033[1;32m$_core \033[1;37m PROMEDIO DE USO DE CPU: \033[1;32m$_usop"
 echo -e "\033[1;31m PROMEDIO DE USO DE LA MEMORIA RAM: \033[1;32m$_usor"
@@ -728,7 +728,7 @@ echo -e "\033[1;97m    LIMITADOR:\033[1;92m $verificar \033[1;97m DESBLOQUEADOR 
 [[ -e ${SCPdir}/message.txt ]] && msg -bar && msg -bra " CREDITOS:\033[1;96m $(cat ${SCPdir}/message.txt) \033[1;31mHORA: \033[1;37m$_hora"
 [[ -e ${SCPdir}/key.txt ]] && msg -bar && msg -bra " KEY: \033[1;93m$(cat ${SCPdir}/key.txt)"
 # NOVO SISTEMA DE MENUS
-msg -bra " VERSION \033[1;31m[\033[1;32m VPS•MX (v7.2)\033[1;97m #MOD By @Kalix1# \033[1;31m]"
+msg -bra " VERSION \033[1;31m[\033[1;32m VPSâ€¢MX (v7.3)\033[1;97m #MOD By @Kalix1# \033[1;31m]"
 msg -bar
 menu_func "ADMINISTRAR CUENTAS (SSH/SSL/DROPBEAR)" "ADMINISTRAR CUENTAS (SS/SSRR)" "\033[1;93mMENU DE INSTALACIONES" "\033[1;94mPUERTOS ACTIVOS" "\033[1;97mHERRAMIENTAS y EXTRAS" "CAMBIAR COLORES DEL PANEL" "-fi $AutoRun AUTO INICIAR" "-vd ACTUALIZAR PANEL" "-vm DESINSTALAR PANEL" 
 msg -bar && echo -ne "$(msg -verd "[0]") $(msg -verm2 ">") "&& msg -bra "SALIR DEL SCRIPT"
