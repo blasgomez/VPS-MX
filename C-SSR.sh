@@ -1990,7 +1990,9 @@ if [[ "${action}" == "clearall" ]]; then
 elif [[ "${action}" == "monitor" ]]; then
 	crontab_monitor_ssr
 else
-	echo -e "Controlador de ShadowSock-R By @Kalix1 ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
+echo -e "        Controlador de ShadowSock-R  ${Red_font_prefix}[v${sh_ver}]${Font_color_suffix}
 $(msg -bar)
   ${Green_font_prefix}1.${Font_color_suffix} Instalar ShadowsocksR 
   ${Green_font_prefix}2.${Font_color_suffix} Actualizar ShadowsocksR

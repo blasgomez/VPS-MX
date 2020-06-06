@@ -26,7 +26,7 @@ case ${arquivoonlineadm} in
     [[ "$my_arqs" = "index.html" ]] && continue
     [[ "$my_arqs" = "index.php" ]] && continue
     [[ -d "$my_arqs" ]] && continue
-    echo -e "\033[1;31m[$my_arqs] \033[1;36mhttp://$IP:85/$my_arqs\033[0m"
+    echo -e "\033[1;31m[$my_arqs] \033[1;36mhttp://$IP:81/$my_arqs\033[0m"
     done
     msg -bar
     }
@@ -39,7 +39,7 @@ i=1
     [[ "$my_arqs" = "index.php" ]] && continue
     [[ -d "$my_arqs" ]] && continue
     select_arc[$i]="$my_arqs"
-    echo -e "${cor[2]}[$i] > ${cor[3]}$my_arqs - \033[1;36mhttp://$IP:85/$my_arqs\033[0m"
+    echo -e "${cor[2]}[$i] > ${cor[3]}$my_arqs - \033[1;36mhttp://$IP:81/$my_arqs\033[0m"
     let i++
     done
     msg -bar
@@ -82,7 +82,7 @@ i="1"
     chmod -R 755 /var/www
     cp $HOME/$arquivo_move /var/www/$arquivo_move
     cp $HOME/$arquivo_move /var/www/html/$arquivo_move
-    echo -e "\033[1;36m http://$IP:85/$arquivo_move\033[0m"
+    echo -e "\033[1;36m http://$IP:81/$arquivo_move\033[0m"
     msg -bar
     echo -e "${cor[5]}$(fun_trans "Exito!")"
      msg -bar

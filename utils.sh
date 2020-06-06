@@ -1,34 +1,14 @@
 #!/bin/bash
-#19/12/2019
+#06/05/2020
 clear
 msg -bar
 declare -A cor=( [0]="\033[1;37m" [1]="\033[1;34m" [2]="\033[1;31m" [3]="\033[1;33m" [4]="\033[1;32m" )
 SCPfrm="/etc/ger-frm" && [[ ! -d ${SCPfrm} ]] && exit
 SCPinst="/etc/ger-inst" && [[ ! -d ${SCPinst} ]] && exit
-BadVPN () {
-pid_badvpn=$(ps x | grep badvpn | grep -v grep | awk '{print $1}')
-if [ "$pid_badvpn" = "" ]; then
-    msg -ama "$(fun_trans "ACTIVANDO BADVPN")"
-    msg -bar
-    if [[ ! -e /bin/badvpn-udpgw ]]; then
-    wget -O /bin/badvpn-udpgw https://www.dropbox.com/s/nxf5s1lffmbikwq/badvpn-udpgw &>/dev/null
-    chmod 777 /bin/badvpn-udpgw
-    fi
-    screen -dmS screen /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10
-	echo 'sudo screen -dmS screen /bin/badvpn-udpgw --listen-addr 127.0.0.1:7300 --max-clients 1000 --max-connections-for-client 10' >> /bin/autobadvpn 
-    [[ "$(ps x | grep badvpn | grep -v grep | awk '{print $1}')" ]] && msg -verd "ACTIVADO CON EXITO" || msg -ama "$(fun_trans "Fallo")"
-else
-    msg -ama "$(fun_trans "DESACTIVANDO BADVPN")"
-	rm -rf /bin/autobadvpn
-    echo '#!/bin/bash' > /bin/autobadvpn
-    chmod +x /bin/autobadvpn
-    msg -bar
-    kill -9 $(ps x | grep badvpn | grep -v grep | awk '{print $1'}) > /dev/null 2>&1
-    killall badvpn-udpgw > /dev/null 2>&1
-    [[ ! "$(ps x | grep badvpn | grep -v grep | awk '{print $1}')" ]] && msg -ne "DESACTIVADO CON EXITO \n"
-    unset pid_badvpn
-    fi
-unset pid_badvpn
+RAM () {
+sudo sync
+sudo sysctl -w vm.drop_caches=3 > /dev/null 2>&1
+msg -ama "   Ram limpiada con Exito!"
 }
 TCPspeed () {
 if [[ `grep -c "^#ADM" /etc/sysctl.conf` -eq 0 ]]; then
@@ -118,6 +98,15 @@ echo -e "Reiniciando Ipetables espere"
 iptables -F && iptables -X && iptables -t nat -F && iptables -t nat -X && iptables -t mangle -F && iptables -t mangle -X && iptables -t raw -F && iptables -t raw -X && iptables -t security -F && iptables -t security -X && iptables -P INPUT ACCEPT && iptables -P FORWARD ACCEPT && iptables -P OUTPUT ACCEPT
 echo -e "iptables reiniciadas con exito"
 }
+packobs () {
+msg -ama "Buscando Paquetes Obsoletos"
+dpkg -l | grep -i ^rc
+msg -ama "Limpiando Paquetes Obsoloteos"
+dpkg -l |grep -i ^rc | cut -d " " -f 3 | xargs dpkg --purge
+msg -ama "Limpieza Completa"
+}
+
+
 on="\033[1;32m[ON]" && off="\033[1;31m[OFF]"
 [[ $(ps x | grep badvpn | grep -v grep | awk '{print $1}') ]] && badvpn=$on || badvpn=$off
 [[ `grep -c "^#ADM" /etc/sysctl.conf` -eq 0 ]] && tcp=$off || tcp=$on
@@ -126,24 +115,26 @@ if [ -e /etc/squid/squid.conf ]; then
 elif [ -e /etc/squid3/squid.conf ]; then
 [[ `grep -c "^#CACHE DO SQUID" /etc/squid3/squid.conf` -gt 0 ]] && squid=$on || squid=$off
 fi
-msg -ama "$(fun_trans "MENU DE UTILITARIOS")"
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
 msg -bar
-echo -ne "\033[1;32m [1] > " && msg -azu "$(fun_trans "BADVPN") $badvpn"
-echo -ne "\033[1;32m [2] > " && msg -azu "$(fun_trans "TCP-SPEED") $tcp"
-echo -ne "\033[1;32m [3] > " && msg -azu "$(fun_trans "CACHE PARA SQUID") $squid"
-echo -ne "\033[1;32m [4] > " && msg -azu "$(fun_trans "APLICAR TIME LOCAL MX")"
+msg -ama "                OPTIMIZADORES BASICOS "
+msg -bar
+echo -ne "\033[1;32m [1] > " && msg -azu "TCP-SPEED $tcp"
+echo -ne "\033[1;32m [2] > " && msg -azu "CACHE PARA SQUID $squid"
+echo -ne "\033[1;32m [3] > " && msg -azu "REFRESCAR RAM"
+echo -ne "\033[1;32m [4] > " && msg -azu "LIMPIAR PAQUETES  OBSOLETOS"
 echo -ne "\033[1;32m [5] > " && msg -azu "$(fun_trans "RESET IPTABLES")"
-echo -ne "\033[1;32m [0] > " && msg -bra "$(fun_trans "VOLTAR")"
+echo -ne "\033[1;32m [0] > " && msg -bra "$(fun_trans "VOLVER")"
 msg -bar
 while [[ ${arquivoonlineadm} != @(0|[1-5]) ]]; do
 read -p "[0-5]: " arquivoonlineadm
 tput cuu1 && tput dl1
 done
 case $arquivoonlineadm in
-1)BadVPN;;
-2)TCPspeed;;
-3)SquidCACHE;;
-4)timemx;;
+1)TCPspeed;;
+2)SquidCACHE;;
+3)RAM;;
+4)packobs;;
 5)resetiptables;;
 0)exit;;
 esac

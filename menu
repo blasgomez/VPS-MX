@@ -1,6 +1,14 @@
 #!/bin/bash
 #19/12/2019
 clear
+#ACTULIZADOR
+rm -rf instalscript.sh &>/dev/null
+[[ ! -e /etc/versin_script ]] && echo 1 > /etc/versin_script
+v11=$(curl -sSL "www.dropbox.com/s/b0esdwzyontf6cf/vercionpanel")
+v22=$(cat /etc/versin_script)
+[[ $v11 = $v22 ]] && vesaoSCT="\033[1;32mVPS•MX (v$v22)\033[1;97m #OFICIAL ®️ \033[1;31m]" || vesaoSCT="\033[1;31mVPS•MX (v$v22) ► \033[1;32mVPS•MX (v$v11)\033[1;31m]" 
+_hora=$(printf '%(%D-%H:%M:%S)T') 
+#COLORES 
 red=$(tput setaf 1)
 gren=$(tput setaf 2)
 yellow=$(tput setaf 3)
@@ -35,8 +43,8 @@ COLOR[1]='\e[31m' #VERMELHO='\e[31m'
 COLOR[2]='\e[32m' #VERDE='\e[32m'
 COLOR[3]='\e[33m' #AMARELO='\e[33m'
 COLOR[4]='\e[34m' #AZUL='\e[34m'
-COLOR[5]='\e[35m' #MAGENTA='\e[35m'
-COLOR[6]='\033[1;36m' #MAG='\033[1;36m'
+COLOR[5]='\e[91m' #MAGENTA='\e[35m'
+COLOR[6]='\033[1;97m' #MAG='\033[1;36m'
 else
 local COL=0
 for number in $(cat $colors); do
@@ -61,14 +69,16 @@ SEMCOR='\e[0m'
   -verm2)cor="${COLOR[1]}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
   -azu)cor="${COLOR[6]}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
   -verd)cor="${COLOR[2]}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
-  -bra)cor="${COLOR[0]}${NEGRITO}" && echo -e "${cor}${2}${SEMCOR}";;
-  "-bar2"|"-bar")cor="${COLOR[4]}======================================================" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
+  -bra)cor="${COLOR[0]}${SEMCOR}" && echo -e "${cor}${2}${SEMCOR}";;
+  "-bar2"|"-bar")cor="${COLOR[1]}=====================================================" && echo -e "${SEMCOR}${cor}${SEMCOR}";;
  esac
 }
 canbio_color () {
 clear
 msg -bar2
-msg -ama "$(fun_trans "Cambiar Colores del Panel") \033[1;31m[\033[1;32m VPS-MX \033[1;97m #MOD MX# \033[1;31m]"
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
+msg -ama "   Cambiar Colores del Panel \033[1;31m[\033[1;32m VPS-MX \033[1;97m #MOD MX# \033[1;31m]"
 msg -bar2
 msg -ama "$(fun_trans "Selecione 7 cores"): "
 echo -e '\033[1;37m [1] ###\033[0m'
@@ -121,7 +131,9 @@ v2=$(cat /etc/versin_script)
 cd $HOME
 tput cuu1 && tput dl1
 msg -bar2
-msg -ama "$(fun_trans "COMPROBANDO VERSION"): \033[1;31m[VPSâ€¢MX\033[1;97m #MOD MX By @Kalix1# \033[1;31m]" 
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
+msg -ama " COMPROBANDO VERSION: \033[1;31m[VPS•MX\033[1;97m #MOD MX By @Kalix1# \033[1;31m]" 
 msg -bar2 && echo -e "\033[1;97m VERSION DE TU VPS-MX: $v2"
 msg -bar2 && echo -e "\033[1;97m VERSION MAS RECIENTE DE VPS-MX: $v1"
 msg -bar2 && echo -e "${cor[2]} ${vesaoSCT}"
@@ -133,8 +145,8 @@ msg -ne "[S/N]: " && read Key
 tput cuu1 && tput dl1
 done
 if [[ $Key = @(s|S|y|Y) ]]; then
-msg -verm "$(fun_trans "Perfecto Iniciando Procedimento"): "
-wget -O $HOME/instalscript.sh https://www.dropbox.com/s/t581wb1h12mwmhm/instalscript.sh &>/dev/null
+msg -verm "$(fun_trans "Perfecto Iniciando Procedimento") "
+wget -O $HOME/instalscript.sh https://www.dropbox.com/s/4olol8n8f936cfq/actscript.sh &>/dev/null
 chmod +x $HOME/instalscript.sh*
 local LINGUAGE=$(cat ${SCPidioma})
 $HOME/instalscript.sh "${LINGUAGE}"
@@ -189,7 +201,9 @@ echo "$(echo ${idioma[$selection]}|cut -d' ' -f1)" > ${SCPidioma}
 }
 mine_port () {
 clear
-msg -bar2
+msg -bar
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
 echo -e "\033[1;93m      INFORMACION DEL SISTEMA Y PUERTOS ACTIVOS"
 msg -bar2
 echo -e "\033[1;31m PROCESADOR: \033[1;37mNUCLEOS: \033[1;32m$_core         \033[1;37mUSO DE CPU: \033[1;32m$_usop"
@@ -230,7 +244,7 @@ stunnel4|stunnel)
 [[ -z $SSL ]] && local SSL="\033[1;31m SSL: \033[1;32m"
 SSL+="$Port ";;
 python|python3)
-[[ -z $PY3 ]] && local PY3="\033[1;31m SOCKS: \033[1;32m"
+[[ -z $PY3 ]] && local PY3="\033[1;31m SOCKS/PYTHON: \033[1;32m"
 PY3+="$Port ";;
 v2ray)
 [[ -z $V2R ]] && local V2R="\033[1;31m V2RAY: \033[1;32m"
@@ -453,10 +467,10 @@ eth=$(ifconfig | grep -v inet6 | grep -v lo | grep -v 127.0.0.1 | grep "encap:Et
     read -p " [S/N]: " -e -i n sshsn
            [[ "$sshsn" = @(s|S|y|Y) ]] && {
            echo -e "${cor[1]} $(fun_trans "Correccion de problemas de paquetes en SSH ...")"
-           echo -e " $(fun_trans "Â¿Cual es la tasa RX?")"
+           echo -e " $(fun_trans "¿Cual es la tasa RX?")"
            echo -ne "[ 1 - 999999999 ]: "; read rx
            [[ "$rx" = "" ]] && rx="999999999"
-           echo -e " $(fun_trans "Â¿Cual es la tasa TX?")"
+           echo -e " $(fun_trans "¿Cual es la tasa TX?")"
            echo -ne "[ 1 - 999999999 ]: "; read tx
            [[ "$tx" = "" ]] && tx="999999999"
            apt-get install ethtool -y > /dev/null 2>&1
@@ -472,7 +486,7 @@ echo $system|awk '{print $1, $2}'
 remove_script () {
 clear 
 msg -bar
-msg -ama "          Â¿ DESEA DESINSTALAR SCRIPT ?"
+msg -ama "          ¿ DESEA DESINSTALAR SCRIPT ?"
 msg -bar
 echo -e " Esto borrara todos los archivos del scrip VPS_MX"
 msg -bar
@@ -541,12 +555,12 @@ case $1 in
 "tcp.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "TCP ACELERACION (BBR/PLUS)") $dev";;
 "Crear-Demo.sh")return 1;;
 "dados.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "MONITOR DE DATOS") $ofc";;
-"blockBT.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "FIREWALL PARA VPS VPSâ€¢MX") $ofc";;
+"blockBT.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "FIREWALL PARA VPS VPS•MX") $ofc";;
 "C-SSR.sh")return 1;;
-"gestor.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "GESTIONAR VPS") $ofc";;
+"gestor.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "AJUSTES INTERNOS DEL VPS") $ofc";;
 "paysnd.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "PAYLOAD FUERZA BRUTA") $ofc";;
 "apacheon.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "COMPARTIR ARCHIVO ONLINE") $ofc";;
-"utils.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "(BADVPN/TCP-SPEED/SQUIDCACHE/FECHA-MX) $ofc";;
+"utils.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "OPTIMIZADORES BASICOS $ofc";;
 "dados.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "MONITOR DE CONSUMO") $ofc";;
 "speed.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "PRUEBA DE VELOCIDAD") $ofc";;
 "ultrahost")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "$(fun_trans "SCANNER DE SUBDOMINIO") $ofc";;
@@ -564,7 +578,8 @@ case $1 in
 "Shadowsocks-libev.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "SHADOWSOCKS-LIBEV $(pid_inst ss-server)";;
 "Shadowsocks-R.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "SHADOWSOCKS-R ${valuest}";; 
 "sockspy.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "SOCKS PYTHON $(pid_inst python)";;
-"v2ray.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "V2RAY $(pid_inst v2ray)";;
+"v2ray.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "V2RAY $(pid_inst v2ray)";; 
+"budp.sh")echo -ne "$(msg -verd "[$2]") $(msg -verm2 ">") " && msg -azu "BADVPN-(UDP:7300) $(pid_inst badvpn)";;
 "pwd.pwd")return 1;;
 "PDirect.py")return 1;;
 "PGet.py")return 1;;
@@ -581,7 +596,9 @@ clear
 
 tput cuu1 && tput dl1
 msg -bar2
-msg -ama "       MENU DE HERRAMIENTAS  | VPS-MX by @Kalix1"
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
+msg -ama "                 MENU DE HERRAMIENTAS"
 msg -bar2
 local Numb=1
 for arqs in $(ls ${SCPfrm}); do
@@ -617,7 +634,7 @@ selection=$(selection_fun $Numb)
   esac
   }  
 }
-# Menu Instalação
+# Menu Instalaciones
 pid_inst () {
 [[ $1 = "" ]] && echo -e "\033[1;31m[OFF]" && return 0
 unset portas
@@ -635,10 +652,12 @@ done <<< "$portas_var"
 menu_inst () {
 clear
 msg -bar
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
 export -f fun_eth
 export -f fun_bar
-menuTXT="$(fun_trans "VOLVER")"
-msg -ama "      MENU DE PROTOCOLOS | VPS-MX By @Kalix1"
+menuTXT="VOLVER"
+msg -ama "                  MENU DE PROTOCOLOS "
 msg -bar
 local Numb=1
 for arqs in $(ls ${SCPinst}); do
@@ -693,15 +712,50 @@ export -f fun_ip
 clear
 #########VISUALIZACION DE MENU
 msg -bar
-msg -ama "      \033[1;91m----------- ðŸ”˜ PANEL VPSâ€¢MX ðŸ”˜ ------------ "
+echo -e "\e[97m\033[1;41m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
 msg -bar
-echo -e "\033[1;31m PROCESADOR: \033[1;37mNUCLEOS:\033[1;32m$_core \033[1;37m PROMEDIO DE USO DE CPU: \033[1;32m$_usop"
-echo -e "\033[1;31m PROMEDIO DE USO DE LA MEMORIA RAM: \033[1;32m$_usor"
-echo -e "\033[1;31m DETALLES RAM: \033[1;37mTOTAL: \033[1;32m$ram1 \033[1;37mUSADA: \033[1;32m$ram3 \033[1;37mLIBRE: \033[1;32m$ram2"
-msg -ne " SISTEMA OPERATIVO: " && echo -ne "\033[1;37m$(os_system)"
-msg -ne " IP: " && echo -e "\033[1;37m$(meu_ip)"
+echo -e "\033[1;31m   CPU: \033[1;37mNo. DE NUCLEOS:\033[1;32m $_core \033[1;37m\033[1;31m FECHA: \033[1;37m$_hora"
+echo -e "\033[1;31m   RAM: \033[1;37m TOTAL: \033[1;32m$ram1 \033[1;37m USADA: \033[1;32m$ram3 \033[1;37m LIBRE: \033[1;32m$ram2"
+echo -e "\033[1;31m   USO DE RAM: \033[1;32m$_usor       \033[1;31m USO DE CPU: \033[1;32m$_usop"
+msg -ne "   S.O: " && echo -ne "\033[1;37m$(os_system)"
+msg -ne "         IP: " && echo -e "\033[1;37m$(meu_ip)"
+msg -bar
+#MONITOR DE SERVICIOS
+monservi_fun () {
+clear
+msg -bar
+echo -e "\033[1;37m       =====>>►► 🐲 PANEL VPS•MX 🐲 ◄◄<<=====       \033[1;37m"
+msg -bar
+echo -e "\033[1;32m            MONITOR DE SERVICIONS PRINCIPALES"
+msg -bar
+echo -e "     Monitor de services: sshd,dropbear,ssl,squid"
+echo -e "             Puedes Monitorear desde:\n       \033[1;32m http://$(meu_ip):81/monitor.html"
+msg -bar
+[[ -z ${VERY3} ]] && monitorservi="\033[1;32m ACTIVADO " || monitorservi="\033[1;31m DESACTIVADO "
+echo -e "            $monitorservi  --  CON EXITO"
 msg -bar
 
+PIDVRF3="$(ps aux|grep "${SCPdir}/menu monitorservi"|grep -v grep|awk '{print $2}')"
+if [[ -z $PIDVRF3 ]]; then
+cd ${SCPdir}
+screen -dmS very3 ${SCPdir}/menu monitorservi
+else
+for pid in $(echo $PIDVRF3); do
+kill -9 $pid &>/dev/null
+done
+
+fi
+}
+monitor_auto () {
+while true; do
+monitor.sh 2>/dev/null
+sleep 720s 
+    done
+}
+if [[ "$1" = "monitorservi" ]]; then
+monitor_auto
+exit
+fi
 #CUENTAS REGISTRAADAS APROX
 #msg -bar
 SSHN="$(grep -c home /etc/passwd)"
@@ -713,28 +767,27 @@ SSH4="$(echo $SSH3)"
 user_info=$(cd /usr/local/shadowsocksr &> /dev/null  && python mujson_mgr.py -l ) 
 user_total=$(echo "${user_info}"|wc -l)
 on="\033[1;92m[ON]" && off="\033[1;31m[OFF]"
-_hora=$(printf '%(%H:%M:%S)T')
 [[ $(ps x | grep badvpn | grep -v grep | awk '{print $1}') ]] && badvpn=$on || badvpn=$off
-echo -e "\033[1;97m       SSH REG:\033[1;92m $SSH4 \033[1;97m SS-SSRR REG:\033[1;92m $user_total \033[1;97m BADVPN: $badvpn"
+echo -e "\033[1;97m      SSH REG:\033[1;92m $SSH4 \033[1;97m SS-SSRR REG:\033[1;92m $user_total \033[1;97m BADVPN: $badvpn"
 VERY="$(ps aux|grep "${SCPusr}/usercodes verificar"| grep -v grep)"
 VERY2="$(ps aux|grep "${SCPusr}/usercodes desbloqueo"| grep -v grep)"
+VERY3="$(ps aux|grep "${SCPdir}/menu monitorservi"| grep -v grep)"
 [[ -z ${VERY} ]] && verificar="\033[1;31m[OFF]" || verificar="\033[1;32m[ON]"
 [[ -z ${VERY2} ]] && desbloqueo="\033[1;31m[OFF]" || desbloqueo="\033[1;32m[ON]"
-echo -e "\033[1;97m    LIMITADOR:\033[1;92m $verificar \033[1;97m DESBLOQUEADOR AUTOMATICO:\033[1;92m $desbloqueo "
-
+[[ -z ${VERY3} ]] && monitorservi="\033[1;31m[OFF]" || monitorservi="\033[1;32m[ON]"
+echo -e "\033[1;97m   LIMITADOR:\033[1;92m $verificar \033[1;97m DESBLOQUEADOR AUTOMATICO:\033[1;92m $desbloqueo "
 [[ -e ${SCPdir}/USRonlines ]] && msg -bar && msg -ne "    \033[1;32mCONECTADOS: " && echo -ne "\033[1;97m$(cat ${SCPdir}/USRonlines) "
 [[ -e ${SCPdir}/USRexpired ]] && msg -ne "  EXPIRADOS: " && echo -ne "\033[1;97m$(cat ${SCPdir}/USRexpired) "  && msg -ne " \033[1;95m BLOQUEADOS: " && echo -e "\033[1;97m$(cat ${SCPdir}/USRbloqueados) " 
-
-[[ -e ${SCPdir}/message.txt ]] && msg -bar && msg -bra " CREDITOS:\033[1;96m $(cat ${SCPdir}/message.txt) \033[1;31mHORA: \033[1;37m$_hora"
+[[ -e ${SCPdir}/message.txt ]] && msg -bar && msg -bra " RESELLER:\033[1;96m $(cat ${SCPdir}/message.txt) "
 [[ -e ${SCPdir}/key.txt ]] && msg -bar && msg -bra " KEY: \033[1;93m$(cat ${SCPdir}/key.txt)"
 # NOVO SISTEMA DE MENUS
-msg -bra " VERSION \033[1;31m[\033[1;32m VPSâ€¢MX (v7.3)\033[1;97m #MOD By @Kalix1# \033[1;31m]"
+msg -bra " VERSION INSTALADA: \033[1;31m[\033[1;32m $vesaoSCT\033[1;97m"
 msg -bar
-menu_func "ADMINISTRAR CUENTAS (SSH/SSL/DROPBEAR)" "ADMINISTRAR CUENTAS (SS/SSRR)" "\033[1;93mMENU DE INSTALACIONES" "\033[1;94mPUERTOS ACTIVOS" "\033[1;97mHERRAMIENTAS y EXTRAS" "CAMBIAR COLORES DEL PANEL" "-fi $AutoRun AUTO INICIAR" "-vd ACTUALIZAR PANEL" "-vm DESINSTALAR PANEL" 
-msg -bar && echo -ne "$(msg -verd "[0]") $(msg -verm2 ">") "&& msg -bra "SALIR DEL SCRIPT"
+menu_func "ADMINISTRAR CUENTAS (SSH/SSL/DROPBEAR)" "ADMINISTRAR CUENTAS (SS/SSRR)" "\033[1;100mMENU DE INSTALACIONES" "PUERTOS ACTIVOS" "HERRAMIENTAS y EXTRAS" "CAMBIAR COLORES DEL PANEL" " -fi ${monitorservi} MONITOR DE SERVICIOS" "-fi $AutoRun AUTO INICIAR" "-vd ACTUALIZAR PANEL" "-vm DESINSTALAR PANEL" 
+msg -bar && echo -ne "$(msg -verd "[0]") $(msg -verm2 ">") "&& msg -bra "\033[1;41mSALIR DEL SCRIPT"
 msg -bar
 # FIM
-selection=$(selection_fun 9)
+selection=$(selection_fun 10)
 case ${selection} in
 1)${SCPusr}/usercodes "${idioma}" ;;
 2)${SCPinst}/C-SSR.sh ;;
@@ -742,9 +795,10 @@ case ${selection} in
 4)mine_port;;
 5)ferramentas_fun;;
 6)canbio_color;;
-7)fun_autorun;;
-8)atualiza_fun;;
-9)remove_script;;
+7)monservi_fun;;
+8)fun_autorun;;
+9)atualiza_fun;;
+10)remove_script;;
 0)cd $HOME && exit 0;;
 esac
 msg -ne "$(fun_trans "Enter Para Continuar")" && read enter

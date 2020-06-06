@@ -153,8 +153,9 @@ echo "   4) CAMELLIA-128-CBC"
 echo "   5) CAMELLIA-192-CBC"
 echo "   6) CAMELLIA-256-CBC"
 echo "   7) SEED-CBC"
+echo "   8) NONE"
 msg -bar
-while [[ $CIPHER != @([1-7]) ]]; do
+while [[ $CIPHER != @([1-8]) ]]; do
 read -p " Cipher [1-7]: " -e -i 1 CIPHER
 done
 case $CIPHER in
@@ -165,6 +166,7 @@ case $CIPHER in
 5) CIPHER="cipher CAMELLIA-192-CBC";;
 6) CIPHER="cipher CAMELLIA-256-CBC";;
 7) CIPHER="cipher SEED-CBC";;
+8) CIPHER="cipher none";;
 esac
 msg -bar
 msg -ama " Estamos listos para configurar su servidor OpenVPN"
@@ -752,10 +754,11 @@ msg -ama " OPENVPN YA ESTA INSTALADO"
 msg -bar
 echo -e "\033[1;32m [1] >\033[1;36m DESINSTALAR  OPENVPN"
 echo -e "\033[1;32m [2] >\033[1;36m EDITAR CONFIGURACION CLIENTE \033[1;31m(MEDIANTE NANO)"
-echo -e "\033[1;32m [3] >\033[1;36m CAMBIAR HOST DE OPENVPN"
-echo -e "\033[1;32m [4] >\033[1;36m INICIAR O PARAR OPENVPN - $OPENBAR"
+echo -e "\033[1;32m [3] >\033[1;36m EDITAR CONFIGURACION SERVIDOR \033[1;31m(MEDIANTE NANO)"
+echo -e "\033[1;32m [4] >\033[1;36m CAMBIAR HOST DE OPENVPN"
+echo -e "\033[1;32m [5] >\033[1;36m INICIAR O PARAR OPENVPN - $OPENBAR"
 msg -bar
-while [[ $xption != @([0|1|2|3|4]) ]]; do
+while [[ $xption != @([0|1|2|3|4|5]) ]]; do
 echo -ne "\033[1;33m $(fun_trans "Opcion"): " && read xption
 tput cuu1 && tput dl1
 done
@@ -813,8 +816,11 @@ msg -bar
  2)
    nano /etc/openvpn/client-common.txt
    return 0;;
- 3)edit_ovpn_host;;
- 4)
+ 3)
+   nano /etc/openvpn/server.conf
+   return 0;;
+ 4)edit_ovpn_host;;
+ 5)
    [[ $(mportas|grep -w openvpn) ]] && {
    /etc/init.d/openvpn stop > /dev/null 2>&1
    killall openvpn &>/dev/null
